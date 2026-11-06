@@ -1,6 +1,9 @@
 # Real-Time Sign Language Detection
 
 A real-time sign language recognition system that uses a webcam to find a hand, classifies the gesture with a custom-trained CNN, and shows the result live with its confidence score. The project covers the full pipeline: dataset creation, model training, and live inference.
+
+**Recognized gestures (7):** Hello, No, Please, Sorry, Thank You, Yes, I Love You
+
 ---
 
 ## Features
@@ -45,7 +48,7 @@ MediaPipe is used to **locate and crop the hand**; the CNN performs the actual g
 ## Dataset
 
 - **Gestures:** 7 classes (hello, no, please, sorry, thank_you, yes, i love you)
-- **Images per gesture:** 250 (about 1,750 images in total; confirm against the count printed by the training script)
+- **Images per gesture:** 250 (1,750 images in total: 1,400 for training, 350 for validation)
 - **Image size:** 128 x 128 RGB, hand region only
 - **Collection:** captured from a webcam with the included collection script, one folder per gesture inside `dataset/`
 - **Split:** 80% training / 20% validation (`validation_split=0.2`, seed 42)
@@ -81,14 +84,16 @@ The dataset is not included in this repository. Create your own using the collec
 
 | Metric | Value |
 |---|---|
-| Validation accuracy | [X]% |
-| Validation loss | [X] |
+| Validation accuracy | 100% (350 validation images) |
+| Validation loss | ~0 (6.9e-08) |
+| Epochs trained | 16 (early stopping; best weights from epoch 11) |
+| Model size | 6,517,831 parameters (~24.9 MB) |
 
 Training curves are saved by the training script as `training_results.png`:
 
 ![Training curves](training_results.png)
 
-> Validation data comes from the same capture session as the training data, so these numbers are likely higher than real-world performance. See [Limitations](#limitations).
+> Validation accuracy reached 100% from the very first epoch because the validation images come from the same capture session as the training images (consecutive, near-identical webcam frames). Treat it as a sanity check, not a measure of real-world accuracy. See [Limitations](#limitations).
 
 ---
 
